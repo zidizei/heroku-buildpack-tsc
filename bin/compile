@@ -10,6 +10,8 @@ TSC=$BUILD_DIR/node_modules/.bin/tsc
 LOG_FILE=$(mktemp -t tsc-build-log.XXXXX)
 echo "" > "$LOG_FILE"
 
+set -o pipefail
+
 source $BP_DIR/lib/output.sh
 source $BP_DIR/lib/env.sh
 source $BP_DIR/lib/json.sh
@@ -48,7 +50,7 @@ build_dependencies | output $LOG_FILE
 
 header "Building application with tsc $($TSC --version | sed 's/Version //')"
 compile_ts "$BUILD_DIR" "$TSC_CONFIG_PATH" | output $LOG_FILE
-if [ $0 == "0" ]; then
+if [ $? == "0" ]; then
     header "Build succeeded!"
 else
     header "Build failed"
