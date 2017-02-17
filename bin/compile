@@ -46,11 +46,10 @@ build_dependencies() {
 header "Installing build dependencies"
 build_dependencies | output $LOG_FILE
 
-function build_typescript_app() {
-    compile_ts "$BUILD_DIR" "$TSC_CONFIG_PATH"
-}
-
 header "Building application with tsc $($TSC --version | sed 's/Version //')"
-build_typescript_app | output $LOG_FILE
-
-header "Build succeeded!"
+compile_ts "$BUILD_DIR" "$TSC_CONFIG_PATH" | output $LOG_FILE
+if [ $0 == "0" ]; then
+    header "Build succeeded!"
+else
+    header "Build failed"
+fi
