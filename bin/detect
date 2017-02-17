@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# look for tsc configuration file
+if [ -f $1/tsconfig.json ]; then
+  echo "TypeScript"
+  exit 0
+fi
+
+exit 1
