@@ -23,10 +23,11 @@ read_json() {
 
 prepare_tsconfig() {
     if $CUSTOM_TSC; then
-        echo "Using deployment configuration found at $TSC_CUSTOM_PATH"
+        echo "Using custom configuration found at $TSC_CUSTOM_FILE"
+        modify_tsconfig "$BUILD_DIR/tsconfig.json" "$TSC_DEFAULT_PATH"
     else
-        echo "Using default configuration found at $BUILD_DIR/tsconfig.json"
-        modify_tsconfig $BUILD_DIR/tsconfig.json
+        echo "Using default configuration found at tsconfig.json"
+        modify_tsconfig "$BUILD_DIR/tsconfig.json" "$TSC_DEFAULT_PATH"
     fi
 }
 
@@ -44,5 +45,5 @@ modify_tsconfig() {
         jq_filter="$jq_filter | .compilerOptions.removeComments = true"
     fi
 
-    cat $1 | $JQ ". $jq_filter" > $TSC_DEFAULT_PATH
+    cat $1 | $JQ ". $jq_filter" > $2
 }
