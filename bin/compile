@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
+BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
+
+TSC=$BUILD_DIR/node_modules/.bin/tsc
+
+LOG_FILE=$(mktemp -t tsc-build-log.XXXXX)
+echo "" > "$LOG_FILE"
+
+source $BP_DIR/lib/output.sh
+source $BP_DIR/lib/env.sh
+source $BP_DIR/lib/json.sh
+source $BP_DIR/lib/tsc.sh
+
+### Setting development environment
+
+header "Creating build environment"
+export_env_dir "$ENV_DIR"
+create_build_env
+
+[ -f "$BUILD_DIR/yarn.lock" ] && YARN=true || YARN=false
+[ "$TSC_CUSTOM_FILE" = "tsconfig.json" ] && CUSTOM_TSC=false || CUSTOM_TSC=true
+
+### Prepare TypeScript configuration file for production environment
+
+header "Preparing TypeScript configuration"
+prepare_tsconfig | output $LOG_FILE
+
+build_dependencies() {
+    if $YARN; then
+        yarn_node_modules "$BUILD_DIR"
+    elif [ -f $TSC ]; then
+        echo "Build dependencies detected (tsc binary exists)"
+    else
+        npm_node_modules "$BUILD_DIR"
+    fi
+
+    if $NODE_VERBOSE; then
+        list_dependencies "$BUILD_DIR"
+    fi
+}
+
+header "Installing build dependencies"
+build_dependencies | output $LOG_FILE
+
+function build_typescript_app() {
+    compile_ts "$BUILD_DIR" "$TSC_CONFIG_PATH"
+}
+
+header "Building application with tsc $($TSC --version | sed 's/Version //')"
+build_typescript_app | output $LOG_FILE
+
+header "Build succeeded!"
