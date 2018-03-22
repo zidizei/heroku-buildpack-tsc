@@ -13,10 +13,10 @@ heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs
 heroku buildpacks:add https://github.com/zidizei/heroku-buildpack-tsc
 ```
 
-By default, `heroku-buildpack-tsc` will use the `tsconfig.json` file found in your application's root directory. You can specify a custom configuration file (e.g. for deployment builds) by setting `TSC_CUSTOM_FILE` in your *Config Vars* to point to an alternative `tsconfig.json`.
+By default, `heroku-buildpack-tsc` will use the `tsconfig.json` file found in your application's root directory. You can specify a custom configuration file (e.g. for deployment builds) by setting `TSC_CONFIG` in your *Config Vars* to point to an alternative `tsconfig.json` file. (See also TypeScript's [configuration inheritance](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html))
 
 ```
-heroku config:set TSC_CUSTOM_FILE='config/tsconfig.prod.json'
+heroku config:set TSC_CONFIG='config/tsconfig.prod.json'
 ```
 
 ## Build Environment
@@ -26,5 +26,3 @@ You can also set a different `NODE_ENV` for the compilation process.
 ```
 heroku config:set TSC_BUILD_ENV='development'
 ```
-
-This is mostly **required** for **`yarn`** builds. Development dependencies with **`npm`** are installed with the `--only=dev` flag.

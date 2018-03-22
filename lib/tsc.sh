@@ -49,9 +49,5 @@ compile_ts() {
     local build_dir=${1:-}
 
     cd "$build_dir"
-    if $CUSTOM_TSC; then
-        ./node_modules/.bin/tsc --pretty --project $TSC_CUSTOM_FILE
-    else
-        ./node_modules/.bin/tsc --pretty --project $TSC_DEFAULT_FILE
-    fi
+    ./node_modules/.bin/tsc --pretty --project $TSC_CONFIG
 }

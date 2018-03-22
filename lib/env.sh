@@ -14,11 +14,12 @@ export_env_dir() {
 create_build_env() {
     export ORIGINAL_ENV=${NODE_ENV:-production}
 
-    export TSC_CUSTOM_FILE=${TSC_CUSTOM_FILE:-tsconfig.json}
-    export TSC_CUSTOM_PATH=$BUILD_DIR/$TSC_CUSTOM_FILE
-    export TSC_DEFAULT_FILE=.heroku-tsconfig.json
-    export TSC_DEFAULT_PATH=$BUILD_DIR/$TSC_DEFAULT_FILE
+    export TSC_CONFIG=${TSC_CONFIG:-"$BUILD_DIR/tsconfig.json"}
 
     export NODE_ENV=${TSC_BUILD_ENV:-$NODE_ENV}
     export NODE_VERBOSE=${NODE_VERBOSE:-false}
+}
+
+exit_build_env() {
+    export NODE_ENV=${ORIGINAL_ENV}
 }
