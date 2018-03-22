@@ -24,18 +24,10 @@ export_env_dir "$ENV_DIR"
 create_build_env
 
 [ -f "$BUILD_DIR/yarn.lock" ] && YARN=true || YARN=false
-[ "$TSC_CUSTOM_FILE" = "tsconfig.json" ] && CUSTOM_TSC=false || CUSTOM_TSC=true
-
-### Prepare TypeScript configuration file for production environment
-
-header "Preparing TypeScript configuration"
-prepare_tsconfig | output $LOG_FILE
 
 build_dependencies() {
     if $YARN; then
         yarn_node_modules "$BUILD_DIR"
-    elif [ -f $TSC ]; then
-        echo "Build dependencies detected (tsc binary exists)"
     else
         npm_node_modules "$BUILD_DIR"
     fi
@@ -45,11 +37,16 @@ build_dependencies() {
     fi
 }
 
-header "Installing build dependencies"
-build_dependencies | output $LOG_FILE
+if [ -f $TSC ]; then
+    echo "Build dependencies detected (tsc binary exists)"
+else
+    header "Installing build dependencies"
+    build_dependencies | output $LOG_FILE
+fi
 
 header "Building application with tsc $($TSC --version | sed 's/Version //')"
-compile_ts "$BUILD_DIR" "$TSC_CONFIG_PATH" | output $LOG_FILE
+compile_ts "$BUILD_DIR" | output $LOG_FILE
+exit_build_env
 if [ $? == "0" ]; then
     header "Build succeeded!"
 else
