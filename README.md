@@ -9,8 +9,8 @@ If the `tsc` command can be found in `node_modules/.bin`, it is assumed that the
 Append this TypeScript buildpack to your application's buildpack list.
 
 ```
-heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs
-heroku buildpacks:add https://github.com/zidizei/heroku-buildpack-tsc
+heroku buildpacks:set heroku/nodejs
+heroku buildpacks:add https://github.com/zidizei/heroku-buildpack-tsc#v2.0
 ```
 
 By default, `heroku-buildpack-tsc` will use the `tsconfig.json` file found in your application's root directory. You can specify a custom configuration file (e.g. for deployment builds) by setting `TSC_CONFIG` in your *Config Vars* to point to an alternative `tsconfig.json` file. (See also TypeScript's [configuration inheritance](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html))
@@ -26,3 +26,9 @@ You can also set a different `NODE_ENV` for the compilation process.
 ```
 heroku config:set TSC_BUILD_ENV='development'
 ```
+
+# Changelog
+
+## v2.0
+- Removed the merging of `tsconfig.json` files when specifying a custom config file. Instead, TypeScript's [configuration inheritance](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+- Use `TSC_CONFIG` instead of `TSC_CUSTOM_FILE` to specify a different TypeScript configuration file
