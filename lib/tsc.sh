@@ -1,9 +1,18 @@
 yarn_node_modules() {
     local build_dir=${1:-}
 
-    echo "Installing node modules (yarn.lock)"
-    cd "$build_dir"
-    yarn install --pure-lockfile --ignore-engines 2>&1
+    if [ -e $build_dir/package.json ]; then
+        cd "$build_dir"
+
+        if [ -e $build_dir/yarn.lock ]; then
+            echo "Installing node modules (yarn.lock)"
+        else
+            echo "Installing node modules (yarn)"
+        fi
+        yarn install --pure-lockfile --production=false --ignore-engines 2>&1
+    else
+       echo "Skipping (no package.json)"
+    fi
 }
 
 npm_node_modules() {
@@ -15,7 +24,7 @@ npm_node_modules() {
         if [ -e $build_dir/npm-shrinkwrap.json ]; then
             echo "Installing development node modules (package.json + shrinkwrap)"
         else
-            echo "Installing development node modules (package.json)"
+            echo "Installing development node modules (npm)"
         fi
         npm install --only=dev --unsafe-perm --userconfig $build_dir/.npmrc 2>&1
     else
