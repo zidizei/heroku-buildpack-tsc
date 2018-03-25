@@ -47,6 +47,7 @@ list_dependencies() {
 
 compile_ts() {
     local build_dir=${1:-}
+    echo "Using configuration at $TSC_CONFIG"
 
     cd "$build_dir"
     ./node_modules/.bin/tsc --pretty --project $TSC_CONFIG
