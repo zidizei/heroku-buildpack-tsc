@@ -14,14 +14,14 @@ set -o pipefail
 
 source $BP_DIR/lib/output.sh
 source $BP_DIR/lib/env.sh
-source $BP_DIR/lib/json.sh
 source $BP_DIR/lib/tsc.sh
 
 ### Setting development environment
 
 header "Creating build environment"
 export_env_dir "$ENV_DIR"
-create_build_env
+deprecate_tsc_custom_file | output $LOG_FILE
+create_build_env # don't pipe into output because the sub-shell would prevent exports
 
 [ -f "$BUILD_DIR/yarn.lock" ] && YARN=true || YARN=false
 
