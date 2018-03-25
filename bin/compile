@@ -37,7 +37,7 @@ build_dependencies() {
     fi
 }
 
-if [ -n "$YARN_PRODUCTION" || -n "$NPM_CONFIG_PRODUCTION" || "$NODE_ENV" != "production" || "$NODE_ENV" == "test" ]; then
+if [ "$YARN_PRODUCTION" = "false" ] || [ "$NPM_CONFIG_PRODUCTION" = "false" ] || [ "$NODE_ENV" != "production" ] || [ "$NODE_ENV" == "test" ]; then
     header "Development dependencies already installed"
 else
     header "Installing development dependencies"
