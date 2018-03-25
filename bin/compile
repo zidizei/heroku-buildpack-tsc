@@ -37,10 +37,10 @@ build_dependencies() {
     fi
 }
 
-if [ -f $TSC ]; then
-    echo "Build dependencies detected (tsc binary exists)"
+if [ -n "$YARN_PRODUCTION" || -n "$NPM_CONFIG_PRODUCTION" || "$NODE_ENV" != "production" || "$NODE_ENV" == "test" ]; then
+    header "Development dependencies already installed"
 else
-    header "Installing build dependencies"
+    header "Installing development dependencies"
     build_dependencies | output $LOG_FILE
 fi
 
