@@ -14,11 +14,13 @@ export_env_dir() {
 create_build_env() {
     export ORIGINAL_ENV=${NODE_ENV:-production}
 
-    if $TSC_CUSTOM_FILE; then
-        echo "Warning: Please use TSC_CONFIG to set a custom tsconfig.json for compilation."
+    if [ -z "$TSC_CUSTOM_FILE" ]; then
+        echo "Warning: Please use TSC_CONFIG to set the path to a custom tsconfig.json for compilation."
     fi
     export TSC_CUSTOM_FILE=${TSC_CUSTOM_FILE:-"$BUILD_DIR/tsconfig.json"}
     export TSC_CONFIG=${TSC_CONFIG:-$TSC_CUSTOM_FILE}
+
+    echo "Using configuration at $TSC_CONFIG"
 
     export NODE_ENV=${TSC_BUILD_ENV:-$NODE_ENV}
     export NODE_VERBOSE=${NODE_VERBOSE:-false}
