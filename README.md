@@ -10,7 +10,7 @@ Append this TypeScript buildpack to your application's buildpack list.
 
 ```
 heroku buildpacks:set heroku/nodejs
-heroku buildpacks:add https://github.com/zidizei/heroku-buildpack-tsc#v2.0
+heroku buildpacks:add zidizei/typescript
 ```
 
 To re-use the development dependencies that have been installed in the previous Nodejs buildpack, set the following config variables to [skip pruning](https://devcenter.heroku.com/articles/nodejs-support#skip-pruning).
@@ -31,6 +31,14 @@ You can also set a different `NODE_ENV` for the compilation process.
 
 ```
 heroku config:set TSC_BUILD_ENV='development'
+```
+
+## Using the latest source code
+
+The `zidizei/typescript` buildpack from the [Heroku Buildpack Registry](https://devcenter.heroku.com/articles/buildpack-registry) represents the latest stable version of the buildpack. If you'd like to use the source code from this Github repository, you can set your buildpack to the Github URL:
+
+```
+heroku buildpacks:add https://github.com/zidizei/heroku-buildpack-tsc#v2.0
 ```
 
 # Changelog
