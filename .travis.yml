@@ -4,7 +4,10 @@ language: minimal
 services:
   - docker
 
-script:
+before_script:
   - docker --version
   - docker-compose --version
+  - chmod +x bin/{detect,compile}
+
+script:
   - docker-compose up --abort-on-container-exit --exit-code-from test
