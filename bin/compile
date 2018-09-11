@@ -18,6 +18,12 @@ source $BP_DIR/lib/tsc.sh
 
 ### Setting development environment
 
+if [ ! -f "$TSC" ]
+then
+    header "Could not find tsc executable. Build aborted"
+    exit 1
+fi
+
 header "Creating build environment"
 export_env_dir "$ENV_DIR"
 deprecate_tsc_custom_file | output $LOG_FILE
