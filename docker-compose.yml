@@ -1,0 +1,7 @@
+version: "3.2"
+
+services:
+  test:
+    image: heroku/buildpack-testrunner
+    volumes:
+      - ./:/app/buildpack:ro
