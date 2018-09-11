@@ -4,4 +4,6 @@ services:
   - docker
 
 script:
-  - docker-compose up
+  - docker --version
+  - docker-compose --version
+  - docker-compose up test --exit-code-from test
