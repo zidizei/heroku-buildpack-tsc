@@ -1,9 +1,10 @@
 os: linux
 sudo: required
+language: minimal
 services:
   - docker
 
 script:
   - docker --version
   - docker-compose --version
-  - docker-compose up test --exit-code-from test
+  - docker-compose up --abort-on-container-exit --exit-code-from test
