@@ -1,4 +1,4 @@
-# Heroku Buildpack: TypeScript
+# Heroku Buildpack: TypeScript [![Build Status](https://travis-ci.org/zidizei/heroku-buildpack-tsc.svg?branch=master)](https://travis-ci.org/zidizei/heroku-buildpack-tsc)
 
 Run this buildpack after [heroku/nodejs](https://github.com/heroku/heroku-buildpack-nodejs) to compile your TypeScript source files to JavaScript with the TypesScript compiler. In order to do that, it will install your development dependencies into `BUILD_DIR`, since the offical Nodejs buildpack removes any installed development dependencies after it's successfully build.
 
@@ -40,6 +40,10 @@ The `zidizei/typescript` buildpack from the [Heroku Buildpack Registry](https://
 ```
 heroku buildpacks:add https://github.com/zidizei/heroku-buildpack-tsc#v2.0
 ```
+
+## Testing
+
+Tests can be run with `docker-compose up` via [Heroku's Buildpack Testrunner](https://hub.docker.com/r/heroku/buildpack-testrunner/) container. Refer to the [testrunner repository](https://github.com/heroku/heroku-buildpack-testrunner) for more information.
 
 # Changelog
 
